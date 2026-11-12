@@ -6,6 +6,7 @@ export const container = "mx-auto w-full max-w-[1440px] px-5 md:px-[76px]";
 const NAV = [
   { href: "/diagnose", label: "진단" },
   { href: "/explore", label: "탐색" },
+  { href: "/evidence", label: "근거" },
 ];
 
 export function PageHeader({

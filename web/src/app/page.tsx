@@ -121,6 +121,8 @@ export default function Home() {
       <footer className={`${container} py-10 text-sm leading-relaxed text-muted-foreground`}>
         데이터: Inside Airbnb(파리), 미쉐린 가이드 2026, Atout France 숙박시설 등급
         <br />
+        인트로 이미지: AI 생성
+        <br />
         KAIST 정보경영프로그램 15기 · IT 기반 비즈니스 혁신 1조
       </footer>
     </main>

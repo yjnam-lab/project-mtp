@@ -5,13 +5,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import "./intro-hero.css";
 
-// 사진은 web/public/intro/1.jpg ~ 4.jpg 에 넣으면 자동으로 쓰입니다.
-// 사진이 없을 때는 회색 그라데이션이 대신 보입니다.
+// 사진: web/public/intro/1.jpg ~ 4.jpg (원본 PNG를 가로 2200px 이하 JPG로 변환해 사용)
+// 사진이 없을 때는 회색 그라데이션이 대신 보입니다. pos는 잘릴 때 남길 위치(가로 세로)
 const SCENES = [
-  { src: "/intro/1.jpg", caption: "La tour Eiffel", fallback: "linear-gradient(to bottom, #1c1c1c, #8a8a8a)" },
-  { src: "/intro/2.jpg", caption: "La Seine", fallback: "linear-gradient(to bottom, #3a3a3a, #b4b4b4)" },
-  { src: "/intro/3.jpg", caption: "Les rues", fallback: "linear-gradient(to bottom, #151515, #4a4a4a)" },
-  { src: "/intro/4.jpg", caption: "La table", fallback: "radial-gradient(circle at center, #5a5a5a, #0b0b0b)" },
+  { src: "/intro/1.jpg", caption: "La tour Eiffel", pos: "50% 35%", fallback: "linear-gradient(to bottom, #1c1c1c, #8a8a8a)" },
+  { src: "/intro/2.jpg", caption: "La Seine", pos: "62% 55%", fallback: "linear-gradient(to bottom, #3a3a3a, #b4b4b4)" },
+  { src: "/intro/3.jpg", caption: "Le café", pos: "40% 60%", fallback: "linear-gradient(to bottom, #151515, #4a4a4a)" },
+  { src: "/intro/4.jpg", caption: "La table", pos: "55% 60%", fallback: "radial-gradient(circle at center, #5a5a5a, #0b0b0b)" },
 ];
 
 const TITLE = "Bien placé ?";
@@ -83,7 +83,7 @@ export function IntroHero() {
             playing && i === active && "ih-on",
             i <= active && "ih-zoom",
           )}
-          style={{ backgroundImage: `url(${s.src}), ${s.fallback}` }}
+          style={{ backgroundImage: `url(${s.src}), ${s.fallback}`, backgroundPosition: s.pos }}
         />
       ))}
       <div className={"ih-shade"} />
