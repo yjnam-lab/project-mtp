@@ -1,0 +1,200 @@
+﻿.ih-stage {
+  position: relative;
+  height: 86vh;
+  min-height: 480px;
+  max-height: 860px;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+/* 장면 4컷 */
+.ih-scene {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1);
+  transition: opacity 1s ease;
+}
+.ih-on {
+  opacity: 1;
+}
+.ih-zoom {
+  transform: scale(1.16);
+  transition: opacity 1s ease, transform 7s linear;
+}
+.ih-stage[data-phase="done"] .ih-scene {
+  opacity: 0;
+}
+.ih-stage[data-phase="done"] .ih-last {
+  opacity: 0.42;
+}
+.ih-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0) 55%);
+}
+
+/* 글자 층 */
+.ih-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+.ih-in {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding-inline: 20px;
+}
+@media (min-width: 900px) {
+  .ih-in {
+    padding-inline: 76px;
+  }
+}
+
+/* 메뉴 */
+.ih-nav {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding-block: 14px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease 0.5s;
+}
+.ih-stage[data-phase="done"] .ih-nav {
+  opacity: 1;
+  pointer-events: auto;
+}
+.ih-logo {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+}
+.ih-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.ih-links a:hover {
+  color: var(--brand);
+}
+
+/* 아래쪽: 장면 이름, 제목, 문구, 버튼 */
+.ih-bottom {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+}
+.ih-cap {
+  min-height: 1.7em;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: opacity 0.4s;
+}
+.ih-cap b {
+  margin-right: 10px;
+  color: var(--brand);
+  font-variant-numeric: tabular-nums;
+}
+.ih-title {
+  margin-top: 6px;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: clamp(48px, 12vw, 150px);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+}
+.ih-title span {
+  display: inline-block;
+  transform: translateY(110%);
+  transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ih-stage[data-phase="title"] .ih-title span,
+.ih-stage[data-phase="done"] .ih-title span {
+  transform: none;
+}
+.ih-stage[data-phase="title"] .ih-cap,
+.ih-stage[data-phase="done"] .ih-cap {
+  opacity: 0;
+}
+.ih-sub {
+  margin-top: 10px;
+  font-size: clamp(17px, 1.8vw, 24px);
+  font-weight: 700;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.8s ease 0.7s, transform 0.8s ease 0.7s;
+}
+.ih-stage[data-phase="done"] .ih-sub {
+  opacity: 1;
+  transform: none;
+}
+.ih-foot {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-block: 22px 26px;
+}
+.ih-ctl {
+  padding: 0 0 4px;
+  border: 0;
+  border-bottom: 2px solid #fff;
+  background: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.ih-ctl:hover {
+  border-color: var(--brand);
+}
+
+/* 진행 막대 */
+.ih-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background: var(--brand);
+}
+.ih-stage[data-phase="play"] .ih-bar,
+.ih-stage[data-phase="title"] .ih-bar {
+  width: 100%;
+  transition: width 5.4s linear;
+}
+.ih-stage[data-phase="done"] .ih-bar {
+  opacity: 0;
+}
+
+@media (max-width: 900px) {
+  .ih-nav {
+    gap: 14px;
+  }
+  .ih-links {
+    gap: 14px;
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ih-scene,
+  .ih-title span,
+  .ih-sub,
+  .ih-nav,
+  .ih-bar {
+    transition: none !important;
+  }
+}

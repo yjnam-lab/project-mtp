@@ -1,69 +1,120 @@
-import Image from "next/image";
+import Link from "next/link";
+import { IntroHero } from "@/components/intro-hero";
+
+// 핵심 수치: 데이터 정의서 v1.0 기준 재계산값. 데이터 연결 단계에서 web.json으로 옮깁니다.
+const FACTS = [
+  {
+    label: "가격 프리미엄",
+    value: "+41.8%",
+    note: "반경 500m 별 식당 10곳 이상 숙소의 1박 가격, 0곳 대비 (같은 구 안 비교)",
+  },
+  {
+    label: "5성 호텔의 선택",
+    value: "96.8%",
+    note: "파리 5성 호텔 126곳 중 122곳이 별 식당 반경 500m 안에 있습니다",
+  },
+  {
+    label: "동네별 수익 격차",
+    value: "3.97배",
+    note: "에어비앤비 추정 연매출 중앙값, 1구 €31,974 vs 19구 €8,044",
+  },
+];
+
+const STEPS = [
+  { title: "위치를 넣습니다", body: "주소를 입력하거나 지도에서 숙소 위치를 고릅니다." },
+  { title: "미식 입지를 봅니다", body: "반경 500m 안 미쉐린 별 식당의 수와 등급으로 입지 점수를 계산합니다." },
+  { title: "적정가와 비교합니다", body: "같은 구, 같은 조건 숙소의 가격과 비교해 내 가격이 제값인지 확인합니다." },
+];
+
+const container = "mx-auto w-full max-w-[1440px] px-5 md:px-[76px]";
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="w-full flex-1">
+      <IntroHero />
+
+      {/* 소개 */}
+      <section className={`${container} grid gap-10 py-24 md:grid-cols-2 md:gap-14 md:py-32`}>
+        <p className="text-5xl font-extralight leading-[1.1] tracking-tight md:text-7xl lg:text-8xl">
+          Where
+          <br />
+          stars set
+          <br />
+          the price
+        </p>
+        <div>
+          <h2 className="text-2xl font-bold leading-snug tracking-tight md:text-3xl">
+            역세권 말고 별세권.
+            <br />
+            내 숙소의 숨은 프리미엄을 제값으로.
+          </h2>
+          <p className="mt-6 leading-relaxed text-muted-foreground">
+            파리 에어비앤비 숙소 35,058곳, 등급 숙박시설 1,664곳, 미쉐린 별 식당 123곳을 반경 500m로 묶어
+            분석했습니다. 별 식당이 가까울수록 고급 숙박이 모이고, 같은 동네 안에서도 1박 가격이 단계적으로
+            올라갑니다.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/evidence"
+            className="mt-8 inline-block border-b-2 border-foreground pb-1 font-bold hover:border-brand hover:text-brand"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            분석 근거 보기 ↗
+          </Link>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* 핵심 숫자 */}
+      <section className="border-y border-border">
+        <div className={`${container} grid md:grid-cols-3`}>
+          {FACTS.map((f, i) => (
+            <div
+              key={f.label}
+              className={`py-12 ${i === 0 ? "md:pr-10" : "border-t border-border md:border-t-0 md:border-l md:px-10"}`}
+            >
+              <p className="text-sm font-bold text-muted-foreground">{f.label}</p>
+              <p className="mt-3 text-6xl font-bold tracking-tight text-brand tabular-nums">{f.value}</p>
+              <p className="mt-4 text-sm leading-relaxed text-muted-foreground">{f.note}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 진단 흐름 */}
+      <section className={`${container} py-24 md:py-32`}>
+        <h2 className="text-2xl font-bold tracking-tight md:text-3xl">이렇게 진단합니다</h2>
+        <ol className="mt-10 grid gap-10 md:grid-cols-3">
+          {STEPS.map((s, i) => (
+            <li key={s.title} className="border-t-2 border-foreground pt-6">
+              <p className="text-sm font-bold text-brand tabular-nums">0{i + 1}</p>
+              <h3 className="mt-2 text-xl font-bold">{s.title}</h3>
+              <p className="mt-3 leading-relaxed text-muted-foreground">{s.body}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      {/* 마무리 */}
+      <section className="bg-foreground text-background">
+        <div
+          className={`${container} flex flex-col gap-8 py-24 md:flex-row md:items-end md:justify-between md:py-32`}
+        >
+          <div>
+            <h2 className="text-6xl font-bold tracking-tight md:text-8xl">On y va&nbsp;?</h2>
+            <p className="mt-4 text-lg text-background/70">내 숙소 위치를 넣고 미식 입지 점수를 확인하세요.</p>
+          </div>
+          <Link
+            href="/diagnose"
+            className="inline-flex items-center justify-center bg-brand px-8 py-4 text-lg font-bold text-brand-foreground hover:bg-background hover:text-foreground"
+          >
+            내 숙소 진단하기 →
+          </Link>
+        </div>
+      </section>
+
+      <footer className={`${container} py-10 text-sm leading-relaxed text-muted-foreground`}>
+        데이터: Inside Airbnb(파리), 미쉐린 가이드 2026, Atout France 숙박시설 등급
+        <br />
+        KAIST 정보경영프로그램 15기 · IT 기반 비즈니스 혁신 1조
+      </footer>
+    </main>
   );
 }
