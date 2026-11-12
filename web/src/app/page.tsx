@@ -1,22 +1,29 @@
 import Link from "next/link";
 import { IntroHero } from "@/components/intro-hero";
+import { findDistrictByName, getPremium, getWebData } from "@/lib/data";
+import { formatCount, formatEuro, formatPct } from "@/lib/format";
 
-// 핵심 수치: 데이터 정의서 v1.0 기준 재계산값. 데이터 연결 단계에서 web.json으로 옮깁니다.
+// 핵심 수치: web.json(데이터 정의서 v1.0 기준 재계산값)에서 읽는다
+const { inv, five, rev_gap } = getWebData();
+const top10 = getPremium("10곳 이상");
+const revTop = findDistrictByName(rev_gap.top);
+const revBot = findDistrictByName(rev_gap.bot);
+
 const FACTS = [
   {
     label: "가격 프리미엄",
-    value: "+41.8%",
+    value: top10 ? formatPct(top10.pct, { sign: true }) : "-",
     note: "반경 500m 별 식당 10곳 이상 숙소의 1박 가격, 0곳 대비 (같은 구 안 비교)",
   },
   {
     label: "5성 호텔의 선택",
-    value: "96.8%",
-    note: "파리 5성 호텔 126곳 중 122곳이 별 식당 반경 500m 안에 있습니다",
+    value: formatPct(five.share),
+    note: `파리 5성 호텔 ${five.n}곳 중 ${five.near}곳이 별 식당 반경 500m 안에 있습니다`,
   },
   {
     label: "동네별 수익 격차",
-    value: "3.97배",
-    note: "에어비앤비 추정 연매출 중앙값, 1구 €31,974 vs 19구 €8,044",
+    value: `${rev_gap.ratio.toFixed(2)}배`,
+    note: `에어비앤비 추정 연매출 중앙값, ${revTop?.a ?? ""}구 ${formatEuro(rev_gap.top_v)} vs ${revBot?.a ?? ""}구 ${formatEuro(rev_gap.bot_v)}`,
   },
 ];
 
@@ -49,7 +56,8 @@ export default function Home() {
             내 숙소의 숨은 프리미엄을 제값으로.
           </h2>
           <p className="mt-6 leading-relaxed text-muted-foreground">
-            파리 에어비앤비 숙소 35,058곳, 등급 숙박시설 1,664곳, 미쉐린 별 식당 123곳을 반경 500m로 묶어
+            파리 에어비앤비 숙소 {formatCount(inv.listings)}곳, 등급 숙박시설 {formatCount(inv.hotels)}곳, 미쉐린
+            별 식당 {formatCount(inv.restaurants)}곳을 반경 500m로 묶어
             분석했습니다. 별 식당이 가까울수록 고급 숙박이 모이고, 같은 동네 안에서도 1박 가격이 단계적으로
             올라갑니다.
           </p>
