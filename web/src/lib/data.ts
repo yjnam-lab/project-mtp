@@ -46,7 +46,7 @@ export type RestaurantRow = [name: string, stars: number, lng: number, lat: numb
 export type HotelRow = [lng: number, lat: number, stars: number];
 
 /**
- * 150m 격자 칸. 칸 중심 = 경도 2.35 + gx*150/73200, 위도 48.86 + gy*150/110574
+ * 150m 격자 칸. 칸 왼쪽 아래 모서리 = 경도 2.35 + gx*150/73200, 위도 48.86 + gy*150/110574 (초안 그리기 방식 기준)
  * 2: 숙소 수, 3: 클러스터 숙소 수, 4·5: 초안 화면에서 쓰지 않음(의미 확인 필요)
  */
 export type GridCell = [gx: number, gy: number, n: number, cluster: number, v4: number, v5: number];

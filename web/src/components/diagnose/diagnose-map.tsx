@@ -1,28 +1,16 @@
 "use client";
 
-// 진단 지도: MapLibre GL + OpenFreeMap(무료, 키 없음) Positron 스타일
+// 진단 지도: 클릭으로 숙소 위치 선택, 반경 500m 원과 별 식당 표시
 import { useEffect, useRef } from "react";
 import type { GeoJSONSource, Map as MlMap } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Restaurant } from "@/lib/data";
 import { distanceM, RADIUS_M } from "@/lib/diagnose";
-
-const STYLE_URL = "https://tiles.openfreemap.org/styles/positron";
-const BRAND = "#d0102b";
-const INK = "#111111";
+import { BRAND, INK, isCoarsePointer, MAP_STYLE_URL, MAX_BOUNDS, MUTED, circlePolygon as circle } from "@/lib/map";
 
 type Point = { lng: number; lat: number };
 
-function circlePolygon({ lng, lat }: Point, radius: number, steps = 72): GeoJSON.Feature<GeoJSON.Polygon> {
-  const coords: [number, number][] = [];
-  const dLat = radius / 111320;
-  const dLng = radius / (111320 * Math.cos((lat * Math.PI) / 180));
-  for (let i = 0; i <= steps; i++) {
-    const t = (i / steps) * 2 * Math.PI;
-    coords.push([lng + dLng * Math.cos(t), lat + dLat * Math.sin(t)]);
-  }
-  return { type: "Feature", properties: {}, geometry: { type: "Polygon", coordinates: [coords] } };
-}
+const circlePolygon = (p: Point, radius: number) => circle(p.lng, p.lat, radius);
 
 function restaurantsGeo(list: Restaurant[], p: Point): GeoJSON.FeatureCollection<GeoJSON.Point> {
   return {
@@ -69,16 +57,13 @@ export function DiagnoseMap({
       const { point: p } = latest.current;
       map = new maplibregl.Map({
         container: boxRef.current,
-        style: STYLE_URL,
+        style: MAP_STYLE_URL,
         center: [p.lng, p.lat],
         zoom: 14.3,
         minZoom: 11,
-        maxBounds: [
-          [2.12, 48.76],
-          [2.55, 48.95],
-        ],
+        maxBounds: MAX_BOUNDS,
         attributionControl: { compact: true },
-        cooperativeGestures: window.matchMedia("(pointer: coarse)").matches,
+        cooperativeGestures: isCoarsePointer(),
       });
       mapRef.current = map;
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
@@ -103,7 +88,7 @@ export function DiagnoseMap({
           source: "rest",
           paint: {
             "circle-radius": ["match", ["get", "stars"], 3, 8, 2, 6, 4.5],
-            "circle-color": ["case", ["==", ["get", "near"], 1], BRAND, "#9a9a9a"],
+            "circle-color": ["case", ["==", ["get", "near"], 1], BRAND, MUTED],
             "circle-stroke-color": "#ffffff",
             "circle-stroke-width": 1.5,
           },

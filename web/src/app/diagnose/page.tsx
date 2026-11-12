@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { DiagnoseApp } from "@/components/diagnose/diagnose-app";
+import { Suspense } from "react";
+import { container, PageHeader } from "@/components/page-header";
+import { DiagnoseApp, DiagnoseFromUrl } from "@/components/diagnose/diagnose-app";
 import { getRestaurants, getWebData } from "@/lib/data";
 import type { DiagnoseData } from "@/lib/diagnose";
 import { formatCount } from "@/lib/format";
@@ -9,8 +10,6 @@ export const metadata: Metadata = {
   title: "내 숙소 진단 — Paris Étoile",
   description: "숙소 위치를 고르면 반경 500m 미쉐린 별 식당으로 미식 입지 점수와 적정가(추정치)를 보여 줍니다.",
 };
-
-const container = "mx-auto w-full max-w-[1440px] px-5 md:px-[76px]";
 
 export default function DiagnosePage() {
   const w = getWebData();
@@ -28,24 +27,16 @@ export default function DiagnosePage() {
 
   return (
     <main className="w-full flex-1">
-      <header className="bg-foreground text-background">
-        <div className={`${container} py-6`}>
-          <Link href="/" className="text-sm font-bold hover:text-brand">
-            ← Paris Étoile
-          </Link>
-        </div>
-        <div className={`${container} pt-10 pb-16 md:pt-16 md:pb-24`}>
-          <p className="text-5xl font-extralight tracking-tight md:text-7xl">Diagnose</p>
-          <h1 className="mt-6 text-3xl font-bold tracking-tight md:text-4xl">내 숙소 진단</h1>
-          <p className="mt-4 max-w-2xl leading-relaxed text-background/70">
-            지도에서 숙소 위치를 고르고 조건과 현재 1박 가격을 넣으세요. 반경 500m 안 별 식당으로 미식 입지 점수와
-            같은 조건 숙소의 적정가(추정치)를 보여 드립니다.
-          </p>
-        </div>
-      </header>
+      <PageHeader en="Diagnose" title="내 숙소 진단" current="/diagnose">
+        지도에서 숙소 위치를 고르고 조건과 현재 1박 가격을 넣으세요. 반경 500m 안 별 식당으로 미식 입지 점수와 같은
+        조건 숙소의 적정가(추정치)를 보여 드립니다.
+      </PageHeader>
 
       <section className={`${container} py-12 md:py-16`}>
-        <DiagnoseApp data={data} />
+        {/* 주소창 좌표를 읽는 부분만 요청 시점에 그리고, 그 전에는 기본 위치 화면을 보여 줌 */}
+        <Suspense fallback={<DiagnoseApp data={data} />}>
+          <DiagnoseFromUrl data={data} />
+        </Suspense>
       </section>
 
       <footer className={`${container} border-t border-border py-10 text-sm leading-relaxed text-muted-foreground`}>

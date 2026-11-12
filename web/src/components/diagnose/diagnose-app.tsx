@@ -2,6 +2,7 @@
 
 // 진단 화면: 입력 상태를 들고 지도·결과에 넘김
 import { useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import {
   diagnose,
   type DiagnoseData,
@@ -104,8 +105,17 @@ function Range({
   );
 }
 
-export function DiagnoseApp({ data }: { data: DiagnoseData }) {
-  const [input, setInput] = useState<DiagnoseInput>(DEFAULT);
+/** 탐색 화면 링크(/diagnose?lng=…&lat=…)로 들어오면 그 위치에서 시작. page에서 Suspense로 감싼다 */
+export function DiagnoseFromUrl({ data }: { data: DiagnoseData }) {
+  const q = useSearchParams();
+  const lng = Number(q.get("lng"));
+  const lat = Number(q.get("lat"));
+  const valid = lng > 2.2 && lng < 2.5 && lat > 48.8 && lat < 48.92;
+  return <DiagnoseApp data={data} initialPoint={valid ? { lng, lat } : undefined} />;
+}
+
+export function DiagnoseApp({ data, initialPoint }: { data: DiagnoseData; initialPoint?: { lng: number; lat: number } }) {
+  const [input, setInput] = useState<DiagnoseInput>(() => ({ ...DEFAULT, ...initialPoint }));
   const [flyToken, setFlyToken] = useState(0);
   const set = (patch: Partial<DiagnoseInput>) => setInput((s) => ({ ...s, ...patch }));
 
