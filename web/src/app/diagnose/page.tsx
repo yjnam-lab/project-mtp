@@ -7,7 +7,7 @@ import type { DiagnoseData } from "@/lib/diagnose";
 import { formatCount } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "내 숙소 진단 — Paris Étoile",
+  title: "내 숙소 진단",
   description: "숙소 위치를 고르면 반경 500m 미쉐린 별 식당으로 미식 입지 점수와 적정가(추정치)를 보여 줍니다.",
 };
 

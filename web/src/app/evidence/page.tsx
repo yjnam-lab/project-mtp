@@ -7,7 +7,7 @@ import { sensitivity } from "@/lib/explore";
 import { formatCount, formatEuro, formatPct } from "@/lib/format";
 
 export const metadata: Metadata = {
-  title: "분석 근거 — Paris Étoile",
+  title: "분석 근거",
   description: "파리 미쉐린 별 식당과 숙박의 공존, 호텔 등급, 1박 가격 프리미엄을 데이터로 보여 줍니다.",
 };
 
@@ -119,7 +119,7 @@ export default function EvidencePage() {
 
       {/* 가격 프리미엄 */}
       <section className="border-t border-border">
-        <div className={`${container} grid gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16`}>
+        <div className={`${container} grid grid-cols-[minmax(0,1fr)] gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16`}>
           <SectionTitle no="02" title="반경 500m 별 식당 수에 따른 1박 가격 프리미엄">
             같은 구 안에서 객실 유형·수용 인원·침실 수가 같은 숙소끼리 비교했을 때, 별 식당 0곳 숙소보다 1박 가격이
             얼마나 높게 나타나는지 보여 줍니다. 세로선은 95% 신뢰구간입니다. 식당 1곳당 효과는 {pctS(per_rest.pct)}(t ={" "}
@@ -143,7 +143,7 @@ export default function EvidencePage() {
 
       {/* 호텔 등급 */}
       <section className="border-t border-border">
-        <div className={`${container} grid gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16`}>
+        <div className={`${container} grid grid-cols-[minmax(0,1fr)] gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16`}>
           <SectionTitle no="03" title="별 식당이 가까울수록 고급 숙박이 모입니다">
             Atout France 등급 숙박시설(좌표 있는 {formatCount(gAll?.n ?? inv.hotels_geo)}곳) 중 4~5성 비율입니다. 파리 전체는{" "}
             {formatPct(gAll?.hi ?? 0)}이지만, 반경 500m 별 식당 수가 늘수록 비율이 높아집니다.
@@ -166,7 +166,7 @@ export default function EvidencePage() {
 
       {/* 반경 민감도 */}
       <section className="border-t border-border">
-        <div className={`${container} grid gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16`}>
+        <div className={`${container} grid grid-cols-[minmax(0,1fr)] gap-12 py-20 md:py-28 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)] lg:gap-16`}>
           <SectionTitle no="04" title="반경을 바꿔도 결론은 같습니다">
             반경 안 별 식당 10곳 이상 숙소의 프리미엄을 반경별로 다시 계산했습니다. 300m로 좁히면 해당 숙소가{" "}
             {formatCount(sens[0].n)}곳으로 줄지만 프리미엄은 비슷하고, 1km로 넓히면 대상이 {formatCount(sens[2].n)}곳으로

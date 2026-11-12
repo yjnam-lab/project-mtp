@@ -38,13 +38,15 @@ export function ColumnChart({
 }) {
   const fmt = (v: number) => `${format === "pct-signed" && v > 0 ? "+" : ""}${Math.round(v * 1000) / 10}%`;
   const boxRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState(640);
+  // 폭을 재기 전(서버 렌더·첫 화면)에는 640 기준으로 그린 뒤 칸에 맞춰 축소해서 보여 줌
+  const [measured, setMeasured] = useState<number | null>(null);
+  const width = measured ?? 640;
   const [hover, setHover] = useState<number | null>(null);
 
   useEffect(() => {
     const el = boxRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(([e]) => setWidth(Math.max(280, Math.round(e.contentRect.width))));
+    const ro = new ResizeObserver(([e]) => setMeasured(Math.max(280, Math.round(e.contentRect.width))));
     ro.observe(el);
     return () => ro.disconnect();
   }, []);
@@ -58,8 +60,15 @@ export function ColumnChart({
   const cx = (i: number) => m.left + band * i + band / 2;
 
   return (
-    <div ref={boxRef} className="relative w-full">
-      <svg width={width} height={height} role="img" aria-label={ariaLabel} className="block overflow-visible">
+    <div ref={boxRef} className="relative w-full min-w-0 overflow-hidden">
+      <svg
+        width={measured ?? "100%"}
+        height={measured ? height : undefined}
+        viewBox={`0 0 ${width} ${height}`}
+        role="img"
+        aria-label={ariaLabel}
+        className="block max-w-full"
+      >
         {/* 격자와 눈금 */}
         {ticks.map((t) => (
           <g key={t}>

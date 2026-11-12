@@ -5,7 +5,7 @@ import { getRestaurants, getWebData } from "@/lib/data";
 import { type ExploreData, sensitivity } from "@/lib/explore";
 
 export const metadata: Metadata = {
-  title: "동네 탐색 — Paris Étoile",
+  title: "동네 탐색",
   description: "파리 20개 구의 별 식당, 클러스터 숙소, 1박 가격과 추정 매출을 지도로 비교합니다.",
 };
 
