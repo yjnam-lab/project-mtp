@@ -63,13 +63,16 @@
   gap: 40px;
   flex-wrap: wrap;
   padding-block: 14px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.8s ease 0.5s;
+  /* 처음부터 보이는 메뉴: 페이지를 열 때 한 번만 짧게 나타남(다시 보기 때는 그대로 유지) */
+  animation: ih-nav-in 0.6s ease 0.3s both;
 }
-.ih-stage[data-phase="done"] .ih-nav {
-  opacity: 1;
-  pointer-events: auto;
+@keyframes ih-nav-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .ih-logo {
   font-size: 26px;
@@ -196,5 +199,8 @@
   .ih-nav,
   .ih-bar {
     transition: none !important;
+  }
+  .ih-nav {
+    animation: none;
   }
 }
